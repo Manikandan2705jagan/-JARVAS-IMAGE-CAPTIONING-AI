@@ -1,0 +1,14 @@
+# Jarvas Image Captioning AI - inference service
+# Verified on Python 3.14.7 / Windows / CPU. torch and torchvision must stay
+# on a matched pair (2.14.x <-> 0.29.x).
+
+fastapi==0.141.1
+uvicorn[standard]==0.54.0
+python-multipart==0.0.32
+pydantic==2.13.5
+
+torch==2.14.0
+torchvision==0.29.0
+transformers==5.17.0
+numpy==2.5.3
+pillow==12.3.0

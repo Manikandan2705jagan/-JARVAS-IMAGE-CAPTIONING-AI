@@ -1,0 +1,296 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   Jarvas Image Captioning AI — Design System
+   Tailwind v4 CSS-first theme
+   ========================================================================== */
+
+@theme {
+  /* ---- Typography ------------------------------------------------------ */
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, monospace;
+
+  /* ---- Surfaces (deep black / navy) ------------------------------------ */
+  --color-void: #04060d;
+  --color-abyss: #06080f;
+  --color-surface: #0a0d18;
+  --color-surface-2: #0e1220;
+  --color-surface-3: #141930;
+
+  /* ---- Brand accents (blue → violet → cyan) ---------------------------- */
+  --color-brand-300: #8ab4ff;
+  --color-brand-400: #6096ff;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+
+  --color-violet-accent: #8b5cf6;
+  --color-violet-soft: #a78bfa;
+  --color-cyan-accent: #22d3ee;
+  --color-emerald-accent: #34d399;
+
+  /* ---- Text ------------------------------------------------------------ */
+  --color-ink: #f4f6fb;
+  --color-muted: #a3adc4;
+  --color-subtle: #6b768f;
+
+  /* ---- Radii ----------------------------------------------------------- */
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ---- Shadows --------------------------------------------------------- */
+  --shadow-glow: 0 0 0 1px rgb(96 150 255 / 0.16), 0 18px 60px -18px rgb(59 130 246 / 0.45);
+  --shadow-card: 0 24px 70px -32px rgb(2 4 12 / 0.9);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: --alpha(var(--color-white) / 8%);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.028em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: --alpha(var(--color-brand-500) / 32%);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-abyss);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: --alpha(var(--color-brand-500) / 28%);
+    border-radius: 999px;
+    border: 2px solid var(--color-abyss);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: --alpha(var(--color-brand-500) / 48%);
+  }
+}
+
+/* ==========================================================================
+   Component utilities
+   ========================================================================== */
+
+@layer components {
+  /* Frosted panel used across the whole product.
+     Prefixes are added automatically by the build — do not write them by hand. */
+  .glass {
+    background: --alpha(var(--color-white) / 4%);
+    border: 1px solid --alpha(var(--color-white) / 9%);
+    backdrop-filter: blur(18px) saturate(140%);
+  }
+
+  .glass-strong {
+    background: linear-gradient(
+      160deg,
+      --alpha(var(--color-white) / 7%) 0%,
+      --alpha(var(--color-white) / 2%) 100%
+    );
+    border: 1px solid --alpha(var(--color-white) / 10%);
+    backdrop-filter: blur(24px) saturate(150%);
+  }
+
+  .card-hover {
+    transition:
+      transform 0.45s var(--ease-out-expo),
+      border-color 0.45s var(--ease-out-expo),
+      box-shadow 0.45s var(--ease-out-expo),
+      background-color 0.45s var(--ease-out-expo);
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: --alpha(var(--color-brand-400) / 30%);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background-image: linear-gradient(
+      100deg,
+      #ffffff 0%,
+      #cbd9ff 38%,
+      var(--color-brand-300) 62%,
+      var(--color-violet-soft) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-soft {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-brand-300),
+      var(--color-violet-soft) 55%,
+      var(--color-cyan-accent)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Thin gradient rule used to separate sections. */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      --alpha(var(--color-brand-400) / 26%),
+      --alpha(var(--color-violet-accent) / 20%),
+      transparent
+    );
+  }
+
+  .grid-backdrop {
+    background-image:
+      linear-gradient(--alpha(var(--color-white) / 3.5%) 1px, transparent 1px),
+      linear-gradient(90deg, --alpha(var(--color-white) / 3.5%) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes vc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes vc-pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes vc-sweep {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(210%);
+  }
+}
+
+@keyframes vc-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes vc-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: vc-float 7s ease-in-out infinite;
+  }
+  .animate-marquee {
+    animation: vc-marquee 32s linear infinite;
+  }
+  .animate-shimmer {
+    background-size: 200% 100%;
+    animation: vc-shimmer 2.6s linear infinite;
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+  }
+
+  .section-offset {
+    scroll-margin-top: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
